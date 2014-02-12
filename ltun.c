@@ -165,6 +165,7 @@ static int tuntap_write(lua_State* L)
 static int tuntap_fileno(lua_State* L)
 {
     tuntap_t* tuntap = luaL_checkudata(L, 1, LTUN_TUNTAP_TNAME);
+
     lua_pushinteger(L, tuntap->fd);
     return 1;
 }
@@ -172,6 +173,7 @@ static int tuntap_fileno(lua_State* L)
 static int tuntap_close(lua_State* L)
 {
     tuntap_t* tuntap = luaL_checkudata(L, 1, LTUN_TUNTAP_TNAME);
+
     if (tuntap->fd >= 0) {
         close(tuntap->fd);
         tuntap->fd = -1;
