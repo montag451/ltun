@@ -1,7 +1,8 @@
 package = "ltun"
 version = "0.1-1"
 source = {
-    url = "git://github.com/montag451/ltun"
+    url = "git://github.com/montag451/ltun",
+    tag = "v0.1"
 }
 description = {
     summary = "Linux TUN/TAP module for Lua.",
