@@ -267,7 +267,7 @@ static int tuntap_set_addr(lua_State* L, tuntap_t* tuntap)
     const char* addr;
     struct sockaddr_in* sin;
 
-    addr = luaL_checkstring(L, 1);
+    addr = luaL_checkstring(L, 3);
     memset(&req, 0, sizeof(req));
     strcpy(req.ifr_name, tuntap->name);
     sin = (struct sockaddr_in*)&req.ifr_addr;
@@ -305,7 +305,7 @@ static int tuntap_set_dstaddr(lua_State* L, tuntap_t* tuntap)
     const char* dstaddr;
     struct sockaddr_in* sin;
 
-    dstaddr = luaL_checkstring(L, 1);
+    dstaddr = luaL_checkstring(L, 3);
     memset(&req, 0, sizeof(req));
     strcpy(req.ifr_name, tuntap->name);
     sin = (struct sockaddr_in*)&req.ifr_addr;
@@ -338,7 +338,7 @@ static int tuntap_set_hwaddr(lua_State* L, tuntap_t* tuntap)
     const char* hwaddr;
     size_t len;
 
-    hwaddr = luaL_checklstring(L, 1, &len);
+    hwaddr = luaL_checklstring(L, 3, &len);
     if (len != ETH_ALEN) {
         return luaL_error(L, "bad MAC address");
     }
@@ -376,7 +376,7 @@ static int tuntap_set_netmask(lua_State* L, tuntap_t* tuntap)
     const char* netmask;
     struct sockaddr_in* sin;
 
-    netmask = luaL_checkstring(L, 1);
+    netmask = luaL_checkstring(L, 3);
     memset(&req, 0, sizeof(req));
     strcpy(req.ifr_name, tuntap->name);
     sin = (struct sockaddr_in*)&req.ifr_netmask;
@@ -408,7 +408,7 @@ static int tuntap_set_mtu(lua_State* L, tuntap_t* tuntap)
     struct ifreq req;
     int mtu;
 
-    mtu = luaL_checkint(L, 1);
+    mtu = luaL_checkint(L, 3);
     if (mtu <= 0) {
         return luaL_error(L, "bad MTU, should be > 0");
     }
