@@ -128,11 +128,9 @@ static int tuntap_read(lua_State* L)
     else if (n < 0) {
         return luaL_error(L, "invalid size: %f", n);
     }
-#if LUA_VERSION_NUM == 501
-    len = lua_tointeger(L, 2);
-#else
-    len = lua_tounsigned(L, 2);
-#endif
+
+    len = (size_t) lua_tointeger(L, 2);
+
     if (len > sizeof(tmp)) {
         buf = lua_newuserdata(L, len);
     } else {
@@ -408,7 +406,7 @@ static int tuntap_set_mtu(lua_State* L, tuntap_t* tuntap)
     struct ifreq req;
     int mtu;
 
-    mtu = luaL_checkint(L, 3);
+    mtu = luaL_checkinteger(L, 3);
     if (mtu <= 0) {
         return luaL_error(L, "bad MTU, should be > 0");
     }
@@ -506,7 +504,7 @@ static int ltun_create(lua_State* L)
         if (i <= nargs) {
             flags = 0;
             for (; i <= nargs; ++i) {
-                flags |= luaL_checkint(L, i);
+                flags |= luaL_checkinteger(L, i);
             }
         }
     }
@@ -543,24 +541,24 @@ static const luaL_Reg ltunlib[] = {
 int luaopen_ltun(lua_State* L)
 {
     luaL_newlib(L, ltunlib);
-    lua_pushnumber(L, IFF_TUN);
+    lua_pushinteger(L, IFF_TUN);
     lua_setfield(L, -2, "IFF_TUN");
-    lua_pushnumber(L, IFF_TAP);
+    lua_pushinteger(L, IFF_TAP);
     lua_setfield(L, -2, "IFF_TAP");
 #ifdef IFF_NO_PI
-    lua_pushnumber(L, IFF_NO_PI);
+    lua_pushinteger(L, IFF_NO_PI);
     lua_setfield(L, -2, "IFF_NO_PI");
 #endif
 #ifdef IFF_ONE_QUEUE
-    lua_pushnumber(L, IFF_ONE_QUEUE);
+    lua_pushinteger(L, IFF_ONE_QUEUE);
     lua_setfield(L, -2, "IFF_ONE_QUEUE");
 #endif
 #ifdef IFF_VNET_HDR
-    lua_pushnumber(L, IFF_VNET_HDR);
+    lua_pushinteger(L, IFF_VNET_HDR);
     lua_setfield(L, -2, "IFF_VNET_HDR");
 #endif
 #ifdef IFF_TUN_EXCL
-    lua_pushnumber(L, IFF_TUN_EXCL);
+    lua_pushinteger(L, IFF_TUN_EXCL);
     lua_setfield(L, -2, "IFF_TUN_EXCL");
 #endif
     create_tuntap_meta(L);
