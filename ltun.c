@@ -128,11 +128,7 @@ static int tuntap_read(lua_State* L)
     else if (n < 0) {
         return luaL_error(L, "invalid size: %f", n);
     }
-#if LUA_VERSION_NUM == 501
     len = lua_tointeger(L, 2);
-#else
-    len = lua_tounsigned(L, 2);
-#endif
     if (len > sizeof(tmp)) {
         buf = lua_newuserdata(L, len);
     } else {
@@ -408,7 +404,7 @@ static int tuntap_set_mtu(lua_State* L, tuntap_t* tuntap)
     struct ifreq req;
     int mtu;
 
-    mtu = luaL_checkint(L, 3);
+    mtu = lua_tointeger(L, 3);
     if (mtu <= 0) {
         return luaL_error(L, "bad MTU, should be > 0");
     }
@@ -506,7 +502,7 @@ static int ltun_create(lua_State* L)
         if (i <= nargs) {
             flags = 0;
             for (; i <= nargs; ++i) {
-                flags |= luaL_checkint(L, i);
+                flags |= lua_tointeger(L, i);
             }
         }
     }
